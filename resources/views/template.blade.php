@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Hound I Fast build Admin dashboard for any platform</title>
+    <title>G-Inscrição</title>
     <meta name="description" content="Hound is a Dashboard & Admin Site Responsive Template by hencework." />
     <meta name="keywords"
         content="admin, admin dashboard, admin template, cms, crm, Hound Admin, Houndadmin, premium admin templates, responsive admin, sass, panel, software, ui, visualization, web app, application" />
@@ -41,7 +41,7 @@
             <div class="mobile-only-brand pull-left">
                 <div class="nav-header pull-left">
                     <div class="logo-wrap">
-                        <a href="index.html">
+                        <a href="{{ url('/') }}">
                             <img class="brand-img" src="{{ URL::asset('template/dist/img/logo.png') }}"
                                 alt="brand" />
                             <span class="brand-text">G-Inscritos</span>
