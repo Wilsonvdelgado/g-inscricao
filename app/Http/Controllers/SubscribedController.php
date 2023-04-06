@@ -69,6 +69,8 @@ class SubscribedController extends Controller
             $subscribe["prestacao_1"] = $firstPayment ? $firstPayment->valor : 0;
             $subscribe["prestacao_2"] = $SecondPayment ? $SecondPayment->valor : 0;
             $subscribe["total_pago"] = $payments->sum('valor');
+            $subscribe["completedPayment"] = false;
+
             array_push(
                 $list,
                 $subscribe
@@ -123,7 +125,6 @@ class SubscribedController extends Controller
             "EM_ANALISE" => "Em análise",
             "VALIDADO" => "Validado",
             "NAO_ACEITE" => "Não aceite",
-            "ELIMINADO" => "Eliminado"
         ];
         return view("subscribe.changestatus", compact('estado', 'list', 'inscrito'));
     }
@@ -154,5 +155,27 @@ class SubscribedController extends Controller
         } catch (\Throwable $th) {
             return array("error" => $th . "");
         }
+    }
+
+    public function export(){
+        $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader('Xlsx');
+        $worksheet = $reader->load('excel_models/inscritos.xlsx'); 
+        $list=  Subscribe::where("estado", '<>', 'ELIMINADO')->get();
+
+        $l = 2;
+        foreach ($list as $item) {
+            $worksheet->getActiveSheet()->setCellValue('A' . $l, "w");
+            $l++;
+        }
+
+        header("Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        header("Content-Disposition: attachment; filename=Inscritos_JMJ.xlsx");
+        header("Expires: 0");
+        header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+        header("Cache-Control: private", false);
+
+        $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($worksheet, 'Xlsx');
+        ob_end_clean();
+        $writer->save('php://output');
     }
 }

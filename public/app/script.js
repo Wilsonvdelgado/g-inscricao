@@ -53,10 +53,14 @@ function initTable(colunas, controller, tableId, dados) {
         })
         .DataTable({
             responsive: true,
-            paging: true, // Table pagination
+            paging: false, // Table pagination
             ordering: false, // Column ordering
             info: true, // Bottom left status text
             //  'processing': true,
+            // scrollY: "600px",
+            // scrollCollapse: true,
+            // scrollY: "50vh",
+            // scrollCollapse: true,
             language: {
                 //"lengthMenu": "Display _MENU_ records per page",
                 paginate: {
@@ -80,15 +84,12 @@ function initTable(colunas, controller, tableId, dados) {
                 data: function (d) {
                     var form = $("#form-search");
                     var objForm = form.serialize();
-
+                    blockUI();
                     return objForm;
                 },
                 dataSrc: function (json) {
-                    // updateIn();
-                    console.log("json");
-                    console.log(json);
+                    $.unblockUI();
                     return json;
-                    // return json.data;
                 },
             },
             columnDefs: colunas,
@@ -101,4 +102,20 @@ function initTable(colunas, controller, tableId, dados) {
 
 function reload_table() {
     table.ajax.reload();
+}
+
+function blockUI() {
+    $.blockUI({
+        baseZ: 2000,
+        css: {
+            border: "none",
+            padding: "0px",
+            backgroundColor: "#000",
+            "-webkit-border-radius": "10px",
+            "-moz-border-radius": "10px",
+            opacity: 0.5,
+            color: "#fff",
+        },
+        message: "<h2> Aguarde...</h2>",
+    });
 }

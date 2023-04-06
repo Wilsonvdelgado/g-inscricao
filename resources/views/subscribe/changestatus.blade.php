@@ -59,7 +59,7 @@
 
         $('.g-estado-select').change(function(e) {
             const value = e.target.value;
-            if (value === "NAO_ACEITE"!!value == "ELIMINADO") {
+            if (value === "NAO_ACEITE") {
                 $('.g-motivo').show();
             } else {
                 $('.g-motivo').hide();
@@ -82,7 +82,6 @@
                     data: $(this).serialize(),
                 })
                 .done(function(data) {
-                    console.log(data);
                     if (data?.error) {
                         $.alert({
                             title: 'Erro!',

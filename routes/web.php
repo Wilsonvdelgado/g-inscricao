@@ -23,6 +23,7 @@ Route::middleware("authaccess")->group(function () {
     Route::get('/inscritos/details/{id}', [SubscribedController::class, 'detail']);
     Route::get('/inscritos/changeStatus/{id}', [SubscribedController::class, 'changeStatus']);
     Route::put('/inscritos/saveChangeStatus', [SubscribedController::class, 'saveChangeStatus']);
+    Route::get('/inscritos/export', [SubscribedController::class, 'export']);
 
     Route::get('/addpayment', [CaixaController::class, 'addPayment']);
     Route::post('/payment', [CaixaController::class, 'savePayment']);

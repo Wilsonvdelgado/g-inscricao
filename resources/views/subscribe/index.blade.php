@@ -34,6 +34,14 @@
                         <h6 class="panel-title txt-dark">Filtros</h6>
                     </div>
                     <div class="pull-right">
+                        {{-- <a href="{{ url('/inscritos/export')}}" title="Exportar" class="pull-left inline-block mr-15" target="_blank">
+                            <i class="fa fa-file-text"></i>
+                        </a> --}}
+
+                        
+                        <a href="#" class="pull-left inline-block mr-15 btn-refresh">
+                            <i class="zmdi zmdi-refresh-sync"></i>
+                        </a>
                         <a href="#" class="pull-left inline-block full-screen mr-15">
                             <i class="zmdi zmdi-fullscreen"></i>
                         </a>
@@ -106,6 +114,7 @@
 
 @section('page-js-files')
     <script src="{{ url('app/script.js') }}"></script>
+    <script src="{{url('template/blockui/blockui.js')}}"></script>
 
 
     <script>
@@ -162,6 +171,7 @@
             // });
             $("#div-modal").html("");
             $.get(url, data, function(response) {
+                    console.log("show modal");
                     $("#div-modal").html(response);
                     $("#div-modal").modal({
                         keyboard: false
@@ -174,6 +184,28 @@
                     // $.unblockUI();
                 });
         }
+
+        $('.btn-refresh').click(function(){
+            console.log("refresh");
+            reload_table();
+        });
+
+        // $('.btn-export').click(function(){
+        //     console.log("sss");
+        //     $.blockUI({baseZ: 2000,
+        //     css: {
+        //     border: 'none',
+        //     padding: '0px',
+        //     backgroundColor: '#000',
+        //     '-webkit-border-radius': '10px',
+        //     '-moz-border-radius': '10px',
+        //     opacity: .5,
+        //     color: '#fff'
+        //     },
+        //     message: '<h2> Aguarde...</h2>'
+        //     });
+
+        // });
 
         $(function() {
 
@@ -206,7 +238,7 @@
                         if (row.prestacao_1) {
                             return row.prestacao_1;
                         }
-                        return `<button class="btn btn-success btn-icon-anim btn-square btn-sm" onClick="addPayment(${row.id})"><i class="fa fa-dollar"></i></button>`;
+                        return `<button class="btn btn-default btn-square btn-sm" onClick="addPayment(${row.id})"><i class="fa fa-dollar"></i></button>`;
                     },
                     "targets": 4
                 },
@@ -215,20 +247,23 @@
                         if (row.prestacao_2) {
                             return row.prestacao_2;
                         }
-                        return `<button class="btn btn-success btn-icon-anim btn-square btn-sm" onClick="addPayment(${row.id})"><i class="fa fa-dollar"></i></button>`;
+                        return `<button class="btn btn-default btn-square btn-sm" onClick="addPayment(${row.id})"><i class="fa fa-dollar"></i></button>`;
                     },
                     "targets": 5
                 },
                 {
                     "render": function(data, type, row) {
-                        return row.total_pago;
+                        const percentage = row.completedPayment ?
+                            `<br/><span class="txt-success"><span>(2.43%)</span></span>` : '';
+                        return row.total_pago + percentage;
                     },
                     "targets": 6
                 },
                 {
                     "render": function(data, type, row) {
                         if (row.estado == 'EM_ANALISE') {
-                            return `<span class="label label-default btn-change-status" onClick="changeStatus(${row.id})">Em análise</span>`;
+                            return `<span class="label label-default btn-change-status" onClick="changeStatus(${row.id})">Em análise</span>
+                         `;
                         }
                         if (row.estado == 'VALIDADO') {
                             return `<span class="label label-success btn-change-status" onClick="changeStatus(${row.id})">Validado</span>`;
@@ -270,7 +305,7 @@
 
             initTable(colunas, '/inscritos/lista', '#tb-subscribes');
 
-            changeStatus(4345);
+            // changeStatus(7237);
 
         });
     </script>

@@ -13,6 +13,7 @@
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "laravelcollective/html": "^6.4",
+        "phpoffice/phpspreadsheet": "^1.28",
         "ttskch/select2-bootstrap4-theme": "^1.5"
     },
     "require-dev": {
