@@ -57,10 +57,15 @@ function initTable(colunas, controller, tableId, dados) {
             ordering: false, // Column ordering
             info: true, // Bottom left status text
             //  'processing': true,
-            // scrollY: "600px",
+            //  scrollY: "800px",
             // scrollCollapse: true,
+            // deferRender:    true,
             // scrollY: "50vh",
             // scrollCollapse: true,
+            // scroll:true,
+            // scrollIndex:100,
+            // deferRender:    true,
+           
             language: {
                 //"lengthMenu": "Display _MENU_ records per page",
                 paginate: {
@@ -84,6 +89,7 @@ function initTable(colunas, controller, tableId, dados) {
                 data: function (d) {
                     var form = $("#form-search");
                     var objForm = form.serialize();
+
                     blockUI();
                     return objForm;
                 },

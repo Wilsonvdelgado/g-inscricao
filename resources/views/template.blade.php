@@ -44,7 +44,7 @@
                         <a href="{{ url('/') }}">
                             <img class="brand-img" src="{{ URL::asset('template/dist/img/logo.png') }}"
                                 alt="brand" />
-                            <span class="brand-text">G-Inscritos</span>
+                            <span class="brand-text">G-Inscritos JMJ</span>
                         </a>
                     </div>
                 </div>

@@ -2,12 +2,21 @@
     <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h5 class="modal-title">Pagamento </h5>
+            <h5 class="modal-title">Pagamento - {{$subscribe->nome}}</h5>
         </div>
         {!! Form::open(['url' => '#', 'id' => 'form-create', 'novalidate' => 'novalidate']) !!}
         <div class="modal-body">
             {{ Form::hidden('inscrito', $inscrito) }}
             {{ Form::hidden('prestacao', $prestacao) }}
+
+            @if($subscribe->comprovativo_pagamento != null)
+                <div class="row">
+                    <div class="col-md-12">
+                        <a href="{{url($subscribe->comprovativo_pagamento)}}" target="_blank" class="text-primary">  <i class="fa fa-file-text mr-10 mb-20"></i>Comprovativo Pagamento</a>
+                    </div>
+                </div>
+            @endIf
+          
             <div class="row">
                 <div class="col-lg-6">
                     <div class="form-group">

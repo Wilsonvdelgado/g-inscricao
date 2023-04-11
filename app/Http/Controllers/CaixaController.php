@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Subscribe;
 use Illuminate\Http\Request;
 use App\Models\Caixa;
+use App\Models\Pacote;
 use Carbon\Carbon;
 use DateTime;
 
@@ -49,8 +50,24 @@ class CaixaController extends Controller
         $inscrito =  $request["id"];
         $countPayment = Caixa::where('inscritos_id', '=', $inscrito)->count();
         $prestacao =  $countPayment + 1;
-        $descricao = $prestacao . "ª prestação";
-        return view('subscribe.addpayment', compact('inscrito', 'descricao', 'prestacao'));
+
+        $subscribe = Subscribe::find($inscrito);
+        $descricao = $prestacao . "ª prestação - " . $subscribe->nome;
+
+        if ($prestacao == 1) {
+            // files
+            $anexos =   explode(",", $subscribe->anexo);
+            $length = count($anexos);
+            $subscribe->comprovativo_pagamento =  $length > 1 ? trim($anexos[1]) : null;
+        }
+
+        return view('subscribe.addpayment', compact('inscrito', 'descricao', 'prestacao', 'subscribe'));
+    }
+
+    private function getPayment(Subscribe $subscribe)
+    {
+        $payments = $subscribe->payments()->where('tipo_movimento', "ENTRADA")->get();
+        return $payments;
     }
 
     public function savePayment(Request $request)
@@ -81,6 +98,16 @@ class CaixaController extends Controller
             ]);
 
             if ($caixa) {
+
+                $subscribe = Subscribe::find($inscrito);
+                $valorPagamento = $this->getPayment($subscribe)->sum('valor');
+                $pacote = Pacote::find($subscribe->pacote_id);
+              
+                if($valorPagamento >= $pacote->valor){
+                    $subscribe->update([
+                        "pagamento_completo" => true,
+                    ]);
+                }
                 $status =  $this->saveHistory($inscrito, "PAGAMENTO", $date, $descricao,  $descricao);
                 return $status;
             }

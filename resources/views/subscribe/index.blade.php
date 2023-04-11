@@ -1,4 +1,5 @@
 @extends('template')
+
 @section('content')
     <style>
         .g-order>i {
@@ -34,11 +35,10 @@
                         <h6 class="panel-title txt-dark">Filtros</h6>
                     </div>
                     <div class="pull-right">
-                        {{-- <a href="{{ url('/inscritos/export')}}" title="Exportar" class="pull-left inline-block mr-15" target="_blank">
+                        <a href="{{ url('/inscritos/export') }}" title="Exportar" class="pull-left inline-block mr-15 btn-export"
+                            target="_blank">
                             <i class="fa fa-file-text"></i>
-                        </a> --}}
-
-                        
+                        </a>
                         <a href="#" class="pull-left inline-block mr-15 btn-refresh">
                             <i class="zmdi zmdi-refresh-sync"></i>
                         </a>
@@ -47,21 +47,26 @@
                         </a>
                     </div>
                     <div class="clearfix"></div>
-                    <div></div>
+
                     <form id="form-search" action="" class="form-search">
                         <div class="row">
                             <div class="col-lg-4">
+                                <div class="checkbox checkbox-primary">
+                                    <input id="pagamento_completo" name="pagamento_completo" type="checkbox">
+                                    <label for="pagamento_completo">
+                                        Pagamento Completo
+                                    </label>
+                                </div>
                                 <input type="hidden" id="orderColumn" name="orderColumn">
                                 <input type="hidden" id="orderType" name="orderType">
                             </div>
                         </div>
                     </form>
-
                 </div>
 
                 <div class="panel-wrapper collapse in">
                     <div class="panel-body">
-                        <div class="table-wrap mt-40">
+                        <div class="table-wrap">
                             <div class="">
                                 <table id="tb-subscribes"
                                     class="table table-bordered table-striped table-hover display  pb-30">
@@ -71,11 +76,10 @@
                                             <th data-name="name" class="g-order">Nome
                                                 <i class="fa fa-sort pull-right"></i>
                                             </th>
+                                            <th>Paróquia</th>
                                             <th data-name="data_inscricao" class="g-order">Data Inscrição
                                                 <i class="fa fa-sort pull-right"></i>
                                             </th>
-                                            <th>Paróquia</th>
-                                            <th>Contato</th>
                                             <th>1ª prestação</th>
                                             <th>2ª prestação</th>
                                             <th>Total pago</th>
@@ -88,9 +92,8 @@
                                     <tfoot>
                                         <tr>
                                             <th>Nome</th>
-                                            <th>Data Inscrição</th>
                                             <th>Paróquia</th>
-                                            <th>Contato</th>
+                                            <th>Data inscrição</th>
                                             <th>1ª prestação</th>
                                             <th>2ª prestação</th>
                                             <th>Total pago</th>
@@ -114,13 +117,13 @@
 
 @section('page-js-files')
     <script src="{{ url('app/script.js') }}"></script>
-    <script src="{{url('template/blockui/blockui.js')}}"></script>
-
+    <script src="{{ url('template/blockui/blockui.js') }}"></script>
 
     <script>
         $(function() {
             var orderColumn = null;
             var orderType = null;
+            var scrollIndex = 0;
 
             function getTyeOrder(currentOrderColumn) {
                 if (orderColumn != currentOrderColumn) {
@@ -146,6 +149,10 @@
                 $('.g-order').find('i').addClass('fa-sort');
                 icon.addClass(orderType == "ASC" ? 'fa-sort-asc g-order-selected' :
                     'fa-sort-desc g-order-selected');
+                reload_table();
+            });
+
+            $('#pagamento_completo').change(function(){
                 reload_table();
             });
         });
@@ -185,53 +192,41 @@
                 });
         }
 
-        $('.btn-refresh').click(function(){
+        $('.btn-refresh').click(function() {
             console.log("refresh");
             reload_table();
         });
 
-        // $('.btn-export').click(function(){
-        //     console.log("sss");
-        //     $.blockUI({baseZ: 2000,
-        //     css: {
-        //     border: 'none',
-        //     padding: '0px',
-        //     backgroundColor: '#000',
-        //     '-webkit-border-radius': '10px',
-        //     '-moz-border-radius': '10px',
-        //     opacity: .5,
-        //     color: '#fff'
-        //     },
-        //     message: '<h2> Aguarde...</h2>'
-        //     });
+        $('.btn-export').click(function(e){
+            e.preventDefault();
+            let url = $(this).attr("href");
 
-        // });
+            if($("#pagamento_completo").prop("checked") == true){
+                url = url  + "?pagamento_completo=on";
+            }
+            window.open(url, '_blank').focus();
+        });
 
         $(function() {
 
             var colunas = [{
                     "render": function(data, type, row) {
-                        return `<div>${row.nome} </div>`;
+                        return `<div>${row.nome}</div>`;
                     },
                     "targets": 0,
                     // "orderable": false
                 },
                 {
                     "render": function(data, type, row) {
-                        return row.data_inscricao;
-                    },
-                    "targets": 1
-                }, {
-                    "render": function(data, type, row) {
                         return row.paroquia;
                     },
-                    "targets": 2
+                    "targets": 1
                 },
                 {
                     "render": function(data, type, row) {
-                        return row.telemovel;
+                        return row.format_data_inscricao;
                     },
-                    "targets": 3
+                    "targets": 2
                 },
                 {
                     "render": function(data, type, row) {
@@ -240,7 +235,7 @@
                         }
                         return `<button class="btn btn-default btn-square btn-sm" onClick="addPayment(${row.id})"><i class="fa fa-dollar"></i></button>`;
                     },
-                    "targets": 4
+                    "targets": 3
                 },
                 {
                     "render": function(data, type, row) {
@@ -249,15 +244,18 @@
                         }
                         return `<button class="btn btn-default btn-square btn-sm" onClick="addPayment(${row.id})"><i class="fa fa-dollar"></i></button>`;
                     },
-                    "targets": 5
+                    "targets": 4
                 },
                 {
                     "render": function(data, type, row) {
                         const percentage = row.completedPayment ?
-                            `<br/><span class="txt-success"><span>(2.43%)</span></span>` : '';
-                        return row.total_pago + percentage;
+                            `<br/><span class="txt-success"><span>P${row.pacote_id} (completo)</span></span>` :
+                            `<br/><span class="txt-warning">P${row.pacote_id} (incompleto)</span>`;
+                        const notification = row.notification ?
+                            `<i class="fa fa-bell txt-success" title="${row.notification}"></i>` : "";
+                        return row.total_pago + percentage + notification;
                     },
-                    "targets": 6
+                    "targets": 5
                 },
                 {
                     "render": function(data, type, row) {
@@ -274,33 +272,13 @@
                         return "";
 
                     },
-                    "targets": 7
+                    "targets": 6
                 }, {
                     "render": function(data, type, row) {
                         return `<button class="btn btn-primary btn-icon-anim btn-square btn-sm" onClick="showDetail(${row.id})"><i class="icon-user"></i></button>`;
                     },
-                    "targets": 8
+                    "targets": 7
                 },
-
-                // {
-                //     "render": function(data, type, row) {
-                //         var html = "";
-                //         html += '<div class="div-action-table">' +
-                //             '<div class="btn-group action-table">' +
-                //             '<button data-toggle="dropdown" class="btn btn-default">' +
-                //             '<em class="icon-options-vertical"></em></button>';
-                //         html +=
-                //             '<ul role="menu" class="dropdown-menu dropdown-table animated flipInX"  data-id="' +
-                //             row.Id + '">';
-                //         html += '<li><a class="sm-action-item" onclick="request_ver(this)">Ver</a></li>';
-                //         html +=
-                //             '<li><a class="sm-action-item" onclick="request_delete(this)">Eliminar</a></li>';
-                //         html += "</ul>";
-                //         html += '</div></div>';
-                //         return html;
-                //     },
-                //     "targets": 1
-                // }
             ];
 
             initTable(colunas, '/inscritos/lista', '#tb-subscribes');
