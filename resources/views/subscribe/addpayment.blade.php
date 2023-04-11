@@ -9,13 +9,25 @@
             {{ Form::hidden('inscrito', $inscrito) }}
             {{ Form::hidden('prestacao', $prestacao) }}
 
-            @if($subscribe->comprovativo_pagamento != null)
+           
                 <div class="row">
                     <div class="col-md-12">
-                        <a href="{{url($subscribe->comprovativo_pagamento)}}" target="_blank" class="text-primary">  <i class="fa fa-file-text mr-10 mb-20"></i>Comprovativo Pagamento</a>
+                        @if($subscribe->comprovativo_pagamento != null)
+                        <a href="{{url($subscribe->comprovativo_pagamento)}}" target="_blank" class="text-primary">  <i class="fa fa-file-text mr-10 mb-20"></i>Documento 1</a>
+                        @endIf
+                       
+                        @if($subscribe->bi_cni != null)
+                        <a href="{{url($subscribe->bi_cni)}}" target="_blank" class="text-primary">  <i class="fa fa-file-text mr-10 mb-20"></i>Documento 2</a>
+                        @endIf
+                    
+                        @if($subscribe->passaport != null)
+
+                        <a href="{{url($subscribe->passaport)}}" target="_blank" class="text-primary">  <i class="fa fa-file-text mr-10 mb-20"></i>Docuemnto 3</a>
+                        @endIf
+                  
                     </div>
                 </div>
-            @endIf
+       
           
             <div class="row">
                 <div class="col-lg-6">

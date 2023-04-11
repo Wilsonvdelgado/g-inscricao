@@ -170,7 +170,7 @@
                                                                                                 <i class="fa fa-file-pdf-o fa-lg show-file"
                                                                                                     style="color: #ff2a00"></i>
                                                                                                 <span
-                                                                                                    class="country-name txt-dark pl-15 show-file">Passaporte</span>
+                                                                                                    class="country-name txt-dark pl-15 show-file">Documento 1</span>
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
@@ -179,8 +179,8 @@
                                                                                                 <i class="fa fa-file-pdf-o fa-lg show-file"
                                                                                                     style="color: #ff2a00"></i>
                                                                                                 <span
-                                                                                                    class="country-name txt-dark pl-15 show-file">BI
-                                                                                                    / CNI</span>
+                                                                                                    class="country-name txt-dark pl-15 show-file">Documento 2
+                                                                                                   </span>
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
@@ -189,8 +189,8 @@
                                                                                                 <i class="fa fa-file-pdf-o fa-lg show-file"
                                                                                                     style="color: #ff2a00"></i>
                                                                                                 <span
-                                                                                                    class="country-name txt-dark pl-15 show-file">Comprovativo
-                                                                                                    pagamento</span>
+                                                                                                    class="country-name txt-dark pl-15 show-file">Docuemnto 3
+                                                                                                 </span>
                                                                                             </td>
                                                                                         </tr>
 

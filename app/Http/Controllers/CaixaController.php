@@ -58,7 +58,10 @@ class CaixaController extends Controller
             // files
             $anexos =   explode(",", $subscribe->anexo);
             $length = count($anexos);
-            $subscribe->comprovativo_pagamento =  $length > 1 ? trim($anexos[1]) : null;
+            $subscribe->bi_cni = $length > 0 ? trim($anexos[0]) : null;
+            $subscribe->comprovativo_pagamento = $length > 1 ? trim($anexos[1]) : null;
+            $subscribe->passaport = $length > 2 ? trim($anexos[2]) : null;
+            // $subscrkcsibe->comprovativo_pagamento =  $length > 1 ? trim($anexos[1]) : null;
         }
 
         return view('subscribe.addpayment', compact('inscrito', 'descricao', 'prestacao', 'subscribe'));
