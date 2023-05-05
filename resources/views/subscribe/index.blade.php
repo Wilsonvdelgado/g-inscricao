@@ -116,7 +116,7 @@
 @endsection
 
 @section('page-js-files')
-    <script src="{{ url('app/script.js') }}"></script>
+    <script src="{{ url('app_script/script.js') }}"></script>
     <script src="{{ url('template/blockui/blockui.js') }}"></script>
 
     <script>
